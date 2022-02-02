@@ -11,9 +11,8 @@ cors = CORS(app)
 @app.route("/wordle", methods=['GET', 'POST'])
 def index():
     word = get_word()
-    word_check = request.args.get('word')
 
-    return jsonify({'data': compare_word(word, word_check)})
+    return jsonify({'data': encrypt(word)})
 
 
 if __name__ == '__main__':

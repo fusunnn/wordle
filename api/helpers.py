@@ -1,3 +1,6 @@
+from cryptography.fernet import Fernet
+import os
+
 
 
 def get_word():
@@ -16,3 +19,29 @@ def compare_word(word, compare_word):
             compare_arr.append(0)
 
     return compare_arr
+
+
+
+
+# key = Fernet.generate_key()
+# print(key)
+# file = open('key.key', 'wb') #wb = write bytes
+# file.write(key)
+# file.close()
+
+def open_key():
+  file = open('./key.key', 'rb') # rb = read bytes
+  key  = file.read()
+  file.close()
+  return key
+
+
+
+key = open_key()
+
+fernet = Fernet(key)
+
+def encrypt(message):
+  encrypted_message = fernet.encrypt(message)
+
+  return encrypted_message
