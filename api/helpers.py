@@ -30,7 +30,7 @@ def compare_word(word, compare_word):
 # file.close()
 
 def open_key():
-  file = open('./key.key', 'rb') # rb = read bytes
+  file = open('../key.key', 'rb') # rb = read bytes
   key  = file.read()
   file.close()
   return key
