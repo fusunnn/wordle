@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from "react";
 
-import { checkAnswer } from "../helpers/api";
-import { decrypt, fetchEncrypted } from "../helpers/decrypt";
+import { fetchEncrypted } from "../helpers/api";
+import { decrypt } from "../helpers/decrypt";
 
 import { Flex, Text } from "@chakra-ui/react";
 
 import Grid from "../components/Grid";
 import Keyboard from "../components/Keyboard";
 
-export default function Home({}) {
+export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [encryptedWord, setEncryptedWord] = useState<Array<number>>([]);
+  const [encryptedWord, setEncryptedWord] = useState<string>("");
 
   useEffect(() => {
     fetchEncrypted()
-      .then((res) => {
-        console.log(decrypt(res));
+      .then((res: string) => {
+        decrypt(res);
         setEncryptedWord(res);
       })
       .then(() => {
         setIsLoading(false);
       })
-      .catch((err) => {
+      .catch((err: Error) => {
         throw err;
       });
   }, []);

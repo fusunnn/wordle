@@ -1,13 +1,7 @@
-import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
+import axios from "axios";
 
-export async function checkAnswer(word: string) {
-  const options: AxiosRequestConfig = {
-    method: "GET",
-    url: "http://127.0.0.1:5000/wordle",
-  };
-
-  const data = await axios.request(options).then((response: AxiosResponse) => {
-    return response.data.data;
+export async function fetchEncrypted() {
+  return axios.get("https://test-encrypt.fusunnn.repl.co").then((res) => {
+    return res.data.word;
   });
-  return data;
 }
