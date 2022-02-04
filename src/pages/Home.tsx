@@ -47,9 +47,11 @@ export default function Home() {
 
   //handling interactions with the keyboard
   function handleKeyboardInput(letter: string) {
-    setCurrGuess((prevState: string) => {
-      return prevState + letter;
-    });
+    if (currGuess.length <= 5) {
+      setCurrGuess((prevState: string) => {
+        return prevState + letter;
+      });
+    }
   }
 
   if (isLoading) {
