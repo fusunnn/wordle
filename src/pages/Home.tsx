@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { fetchEncrypted } from "../helpers/api";
 import { decrypt } from "../helpers/decrypt";
+import { makeGrid } from "../helpers/grid";
 
 import { Flex, Text } from "@chakra-ui/react";
 
@@ -14,6 +15,9 @@ export default function Home() {
   const [currGuess, setCurrGuess] = useState<string>("");
   const [currGuessNumber, setCurrGuessNumber] = useState<number>(0);
 
+  const [grid, setGrid] = useState<number[][]>(makeGrid());
+
+  //fetch word when DOM renders
   useEffect(() => {
     fetchEncrypted()
       .then((res: string) => {
@@ -27,6 +31,7 @@ export default function Home() {
       });
   }, []);
 
+  //handling interactions with the keyboard
   function handleKeyboardInput(letter: string) {
     setCurrGuess((prevState: string) => {
       return prevState + letter;
@@ -51,7 +56,7 @@ export default function Home() {
         Wordle
       </Text>
 
-      <Grid />
+      <Grid grid={grid} />
 
       <Keyboard handleInput={(letter: string) => handleKeyboardInput(letter)} />
     </Flex>
