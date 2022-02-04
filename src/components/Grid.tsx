@@ -17,7 +17,7 @@ function makeGrid() {
 export default function Grid({}) {
   const grid: number[][] = makeGrid();
   return (
-    <Box mt="6rem">
+    <Box>
       {grid.map((row, index) => {
         return (
           <Flex key={index}>

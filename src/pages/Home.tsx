@@ -11,11 +11,12 @@ import Keyboard from "../components/Keyboard";
 export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [encryptedWord, setEncryptedWord] = useState<string>("");
+  const [currGuess, setCurrGuess] = useState<string>("");
+  const [currGuessNumber, setCurrGuessNumber] = useState<number>(0);
 
   useEffect(() => {
     fetchEncrypted()
       .then((res: string) => {
-        decrypt(res);
         setEncryptedWord(res);
       })
       .then(() => {
@@ -25,6 +26,12 @@ export default function Home() {
         throw err;
       });
   }, []);
+
+  function handleKeyboardInput(letter: string) {
+    setCurrGuess((prevState: string) => {
+      return prevState + letter;
+    });
+  }
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -36,13 +43,17 @@ export default function Home() {
       p={4}
       color="beige.main"
       align="center"
+      justify="space-between"
       direction="column"
     >
+      {/* TITLE */}
       <Text fontSize="5xl" fontWeight="bold">
         Wordle
       </Text>
+
       <Grid />
-      <Keyboard />
+
+      <Keyboard handleInput={(letter: string) => handleKeyboardInput(letter)} />
     </Flex>
   );
 }
