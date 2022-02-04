@@ -11,11 +11,13 @@ import Keyboard from "../components/Keyboard";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
   const [encryptedWord, setEncryptedWord] = useState<string>("");
+
   const [currGuess, setCurrGuess] = useState<string>("");
   const [currGuessNumber, setCurrGuessNumber] = useState<number>(0);
 
-  const [grid, setGrid] = useState<number[][]>(makeGrid());
+  const [grid, setGrid] = useState<string[][]>(makeGrid());
 
   //fetch word when DOM renders
   useEffect(() => {
@@ -30,6 +32,18 @@ export default function Home() {
         throw err;
       });
   }, []);
+
+  //handle updating the grid, updates whenever the current guess is updated
+  useEffect(() => {
+    //don't update grid if user is typing past 5 characters
+    if (currGuess.length <= 5) {
+      for (var i: number = 0; i < currGuess.length; i++) {
+        const gridCopy = grid.slice();
+        gridCopy[currGuessNumber][i] = currGuess[i];
+        setGrid(gridCopy);
+      }
+    }
+  }, [currGuess]);
 
   //handling interactions with the keyboard
   function handleKeyboardInput(letter: string) {

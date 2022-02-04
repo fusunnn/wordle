@@ -1,9 +1,9 @@
-export function makeGrid() {
+export function makeGrid(): string[][] {
   const grid = [];
   for (let i = 0; i < 6; i++) {
     let row = [];
     for (let j = 0; j < 5; j++) {
-      row.push(0);
+      row.push("");
     }
     grid.push(row);
   }

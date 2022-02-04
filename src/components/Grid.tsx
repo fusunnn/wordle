@@ -1,9 +1,9 @@
 import React from "react";
 
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, Center } from "@chakra-ui/react";
 
 interface Props {
-  grid: number[][];
+  grid: string[][];
 }
 
 export default function Grid({ grid }: Props) {
@@ -12,9 +12,9 @@ export default function Grid({ grid }: Props) {
       {grid.map((row, index) => {
         return (
           <Flex key={index}>
-            {row.map((cell, i) => {
+            {row.map((letter, i) => {
               return (
-                <Box
+                <Center
                   w="4rem"
                   h="4rem"
                   border="2px"
@@ -22,7 +22,9 @@ export default function Grid({ grid }: Props) {
                   borderRadius="10"
                   m={1}
                   key={i}
-                ></Box>
+                >
+                  {letter}
+                </Center>
               );
             })}
           </Flex>
