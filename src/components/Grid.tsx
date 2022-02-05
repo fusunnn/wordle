@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Box, Flex, Center } from "@chakra-ui/react";
+import { Box, Flex, Center, Text } from "@chakra-ui/react";
 
 interface Props {
   grid: string[][];
@@ -19,11 +19,13 @@ export default function Grid({ grid }: Props) {
                   h="4rem"
                   border="2px"
                   borderColor="beige.faded"
-                  borderRadius="10"
+                  borderRadius="5"
                   m={1}
                   key={i}
                 >
-                  {letter}
+                  <Text fontWeight="bold" fontSize="1.4rem">
+                    {letter}
+                  </Text>
                 </Center>
               );
             })}

@@ -37,7 +37,7 @@ export default function Home() {
   useEffect(() => {
     //don't update grid if user is typing past 5 characters
     if (currGuess.length <= 5) {
-      for (var i: number = 0; i < currGuess.length; i++) {
+      for (var i: number = 0; i < 5; i++) {
         const gridCopy = grid.slice();
         gridCopy[currGuessNumber][i] = currGuess[i];
         setGrid(gridCopy);
@@ -52,6 +52,16 @@ export default function Home() {
         return prevState + letter;
       });
     }
+  }
+
+  function handleDeleteChar() {
+    setCurrGuess((prevState) => {
+      return prevState.substring(0, prevState.length - 1);
+    });
+  }
+
+  function handleEnterKey() {
+    return;
   }
 
   if (isLoading) {
@@ -74,7 +84,11 @@ export default function Home() {
 
       <Grid grid={grid} />
 
-      <Keyboard handleInput={(letter: string) => handleKeyboardInput(letter)} />
+      <Keyboard
+        handleInput={(letter: string) => handleKeyboardInput(letter)}
+        handleDeleteChar={handleDeleteChar}
+        handleEnterKey={handleEnterKey}
+      />
     </Flex>
   );
 }
