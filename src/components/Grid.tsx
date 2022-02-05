@@ -3,7 +3,6 @@ import React from "react";
 import { Box, Flex, Center, Text } from "@chakra-ui/react";
 
 import { Cell } from "../types/cell";
-import { isTemplateSpan } from "typescript";
 
 interface Props {
   grid: Cell[][];

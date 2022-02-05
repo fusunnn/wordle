@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 
 import { fetchEncrypted } from "../helpers/api";
-import { decrypt } from "../helpers/decrypt";
+import { checkAnswer } from "../helpers/check";
 import { makeGrid } from "../helpers/grid";
 
 import { Flex, Text } from "@chakra-ui/react";
 
 import Grid from "../components/Grid";
 import Keyboard from "../components/Keyboard";
+
 import { Cell } from "../types/cell";
 
 export default function Home() {
@@ -38,9 +39,17 @@ export default function Home() {
   useEffect(() => {
     //don't update grid if user is typing past 5 characters
     if (currGuess.length <= 5) {
+      console.log("ran");
       for (var i: number = 0; i < 5; i++) {
+        console.log("loop");
         const gridCopy = grid.slice();
-        gridCopy[currGuessNumber][i].letter = currGuess[i];
+        if (currGuess[i]) {
+          gridCopy[0][i].letter = currGuess[i];
+        } else {
+          gridCopy[0][i].letter = "";
+        }
+
+        console.log(gridCopy);
         setGrid(gridCopy);
       }
     }
@@ -48,6 +57,7 @@ export default function Home() {
 
   //handling interactions with the keyboard
   function handleKeyboardInput(letter: string) {
+    console.log("run", currGuess);
     if (currGuess.length <= 5) {
       setCurrGuess((prevState: string) => {
         return prevState + letter;
@@ -62,7 +72,10 @@ export default function Home() {
   }
 
   function handleEnterKey() {
-    return;
+    // const newRow = checkAnswer(encryptedWord, grid[currGuessNumber]);
+    // setGrid((prevState) => {
+    //   return [...prevState, (prevState[currGuessNumber] = newRow)];
+    // });
   }
 
   if (isLoading) {
