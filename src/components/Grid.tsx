@@ -2,8 +2,11 @@ import React from "react";
 
 import { Box, Flex, Center, Text } from "@chakra-ui/react";
 
+import { Cell } from "../types/cell";
+import { isTemplateSpan } from "typescript";
+
 interface Props {
-  grid: string[][];
+  grid: Cell[][];
 }
 
 export default function Grid({ grid }: Props) {
@@ -12,7 +15,7 @@ export default function Grid({ grid }: Props) {
       {grid.map((row, index) => {
         return (
           <Flex key={index}>
-            {row.map((letter, i) => {
+            {row.map((item, i) => {
               return (
                 <Center
                   w="4rem"
@@ -22,9 +25,18 @@ export default function Grid({ grid }: Props) {
                   borderRadius="5"
                   m={1}
                   key={i}
+                  backgroundColor={
+                    item.status === "inactive"
+                      ? "transparent"
+                      : item.status === "incorrect"
+                      ? "red"
+                      : item.status === "half"
+                      ? "orange"
+                      : "green"
+                  }
                 >
                   <Text fontWeight="bold" fontSize="1.4rem">
-                    {letter}
+                    {item.letter}
                   </Text>
                 </Center>
               );

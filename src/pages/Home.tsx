@@ -8,6 +8,7 @@ import { Flex, Text } from "@chakra-ui/react";
 
 import Grid from "../components/Grid";
 import Keyboard from "../components/Keyboard";
+import { Cell } from "../types/cell";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -17,7 +18,7 @@ export default function Home() {
   const [currGuess, setCurrGuess] = useState<string>("");
   const [currGuessNumber, setCurrGuessNumber] = useState<number>(0);
 
-  const [grid, setGrid] = useState<string[][]>(makeGrid());
+  const [grid, setGrid] = useState<Cell[][]>(makeGrid());
 
   //fetch word when DOM renders
   useEffect(() => {
@@ -39,7 +40,7 @@ export default function Home() {
     if (currGuess.length <= 5) {
       for (var i: number = 0; i < 5; i++) {
         const gridCopy = grid.slice();
-        gridCopy[currGuessNumber][i] = currGuess[i];
+        gridCopy[currGuessNumber][i].letter = currGuess[i];
         setGrid(gridCopy);
       }
     }
