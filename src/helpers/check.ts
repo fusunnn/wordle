@@ -2,6 +2,7 @@ import { Cell } from "../types/cell";
 import { decrypt } from "./decrypt";
 import { count, countCellLetter } from "./count";
 
+//function to check guess against real answer - I never store the decrypted answer to prevent hackers
 export function checkAnswer(encrypted: string, row: Cell[]): Cell[] {
   let newRow = [];
   for (let i = 0; i < row.length; i++) {

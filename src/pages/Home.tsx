@@ -18,6 +18,9 @@ interface Test {
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isPlaying, setIsPlaying] = useState<boolean>(true);
+  const [hasWon, setHasWon] = useState<boolean>(false);
+  const [hasLost, setHasLost] = useState<boolean>(false);
 
   const [encryptedWord, setEncryptedWord] = useState<string>("");
 
@@ -78,15 +81,23 @@ export default function Home() {
         prevState[currGuessNumber] = newRow;
         return prevState;
       });
-      setCurrGuessNumber((prevState) => {
-        return prevState + 1;
-      });
-      setCurrGuess("");
+
+      if (currGuessNumber === 5) {
+        setIsPlaying(false);
+      } else {
+        setCurrGuessNumber((prevState) => {
+          return prevState + 1;
+        });
+        setCurrGuess("");
+      }
     }
   }
 
   if (isLoading) {
     return <div>Loading...</div>;
+  }
+  if (!isPlaying) {
+    return <div>Game Over!</div>;
   }
   return (
     <Flex
