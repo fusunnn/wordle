@@ -11,6 +11,11 @@ import Keyboard from "../components/Keyboard";
 
 import { Cell } from "../types/cell";
 
+interface Test {
+  letter: string;
+  status: string;
+}
+
 export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -39,27 +44,22 @@ export default function Home() {
   useEffect(() => {
     //don't update grid if user is typing past 5 characters
     if (currGuess.length <= 5) {
-      console.log("ran");
-      for (var i: number = 0; i < 5; i++) {
-        console.log("loop");
-        const gridCopy = grid.slice();
+      let tempGrid = [...grid];
+      for (let i = 0; i < tempGrid[currGuessNumber].length; i++) {
         if (currGuess[i]) {
-          gridCopy[0][i].letter = currGuess[i];
+          tempGrid[currGuessNumber][i].letter = currGuess[i];
         } else {
-          gridCopy[0][i].letter = "";
+          tempGrid[currGuessNumber][i].letter = "";
         }
-
-        console.log(gridCopy);
-        setGrid(gridCopy);
       }
+      setGrid(tempGrid);
     }
   }, [currGuess]);
 
   //handling interactions with the keyboard
   function handleKeyboardInput(letter: string) {
-    console.log("run", currGuess);
-    if (currGuess.length <= 5) {
-      setCurrGuess((prevState: string) => {
+    if (currGuess.length < 5) {
+      setCurrGuess((prevState) => {
         return prevState + letter;
       });
     }
@@ -72,10 +72,17 @@ export default function Home() {
   }
 
   function handleEnterKey() {
-    // const newRow = checkAnswer(encryptedWord, grid[currGuessNumber]);
-    // setGrid((prevState) => {
-    //   return [...prevState, (prevState[currGuessNumber] = newRow)];
-    // });
+    if (currGuess.length === 5) {
+      const newRow = checkAnswer(encryptedWord, grid[currGuessNumber]);
+      setGrid((prevState) => {
+        prevState[currGuessNumber] = newRow;
+        return prevState;
+      });
+      setCurrGuessNumber((prevState) => {
+        return prevState + 1;
+      });
+      setCurrGuess("");
+    }
   }
 
   if (isLoading) {

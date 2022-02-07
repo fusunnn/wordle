@@ -4,6 +4,10 @@ import { Box, Flex, Center, Text } from "@chakra-ui/react";
 
 import { Cell } from "../types/cell";
 
+interface Test {
+  letter: string;
+  status: string;
+}
 interface Props {
   grid: Cell[][];
 }
