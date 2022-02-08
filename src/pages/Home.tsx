@@ -84,8 +84,10 @@ export default function Home() {
         });
         if (hasWon) {
           setHasWon(true);
+          setIsPlaying(false);
         } else if (currGuessNumber === 5) {
           setHasLost(true);
+          setIsPlaying(false);
         } else {
           setCurrGuessNumber((prevState) => {
             return prevState + 1;
@@ -99,11 +101,9 @@ export default function Home() {
   }
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Center>Loading...</Center>;
   }
-  if (hasLost) {
-    return <div>You Lost!</div>;
-  }
+
   return (
     <Flex
       w="100%"
@@ -119,18 +119,27 @@ export default function Home() {
         Wordle
       </Text>
       <Flex justify="center" align="center" direction="column">
-        {hasWon && (
+        {!isPlaying && (
           <Center
-            bg="beige.main"
-            h="3rem"
-            w="10rem"
-            borderRadius="1rem"
-            textAlign="center"
+            w="100vw"
+            h="100vh"
             position="absolute"
+            top={0}
+            left={0}
+            bg="rgba(0,0,0,0.3)"
           >
-            <Text color="black" fontWeight="bold" fontSize="1.2rem">
-              {decrypt(encryptedWord)}
-            </Text>
+            <Center
+              bg="beige.main"
+              h="3rem"
+              w="10rem"
+              borderRadius="1rem"
+              textAlign="center"
+              position="absolute"
+            >
+              <Text color="black" fontWeight="bold" fontSize="1.2rem">
+                {hasWon ? decrypt(encryptedWord) : "You lost"}
+              </Text>
+            </Center>
           </Center>
         )}
         <Grid grid={grid} />
