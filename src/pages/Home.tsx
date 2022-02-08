@@ -135,6 +135,7 @@ export default function Home() {
               borderRadius="1rem"
               textAlign="center"
               position="absolute"
+              transition="0.3s"
             >
               <Text color="black" fontWeight="bold" fontSize="1.2rem">
                 {hasWon ? decrypt(encryptedWord) : "You lost"}
