@@ -1,7 +1,7 @@
 import requests
 
 
-def fetch_word():
+def fetch():
     url = "https://wordsapiv1.p.rapidapi.com/words/"
 
     querystring = {"random": "true", "letters": "5",
@@ -20,13 +20,13 @@ def fetch_word():
     return word
 
 
-def get_word():
+def fetch_word():
 
     current_word = ''
     current_freq = 0
 
     while current_freq < 4.5:
-        word = fetch_word()
+        word = fetch()
         try:
             current_word = word['word']
             current_freq = word['frequency']
@@ -43,7 +43,7 @@ def write(word):
 
 def run():
 
-    word = get_word()
+    word = fetch_word()
     write(word)
 
 
