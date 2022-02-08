@@ -36,15 +36,14 @@ def fetch_word():
     return current_word
 
 
-def write(word):
-    with open('./word.txt', 'w') as f:
+def write(word, file_url):
+    with open(file_url, 'w') as f:
         f.write(word)
 
 
 def run():
-
     word = fetch_word()
-    write(word)
+    write(word, "./word.txt")
 
 
 run()
