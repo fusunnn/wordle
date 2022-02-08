@@ -3,7 +3,7 @@ import { decrypt } from "./decrypt";
 import { count, countCellLetter } from "./count";
 
 //function to check guess against real answer - I never store the decrypted answer to prevent hackers
-export function checkAnswer(encrypted: string, row: Cell[]) {
+export function checkAnswer(encrypted: string, row: Cell[], key: string) {
   const placeholderCell: Cell = {
     letter: "",
     status: "inactive",
@@ -23,7 +23,7 @@ export function checkAnswer(encrypted: string, row: Cell[]) {
     let currLetter = row[i].letter.toLowerCase();
 
     //check if letter is correct and correct position
-    if (currLetter === decrypt(encrypted)[i]) {
+    if (currLetter === decrypt(encrypted, key)[i]) {
       const newCell: Cell = {
         letter: row[i].letter,
         status: "correct",
@@ -37,9 +37,9 @@ export function checkAnswer(encrypted: string, row: Cell[]) {
 
     if (
       //check if letter is in the word and check for number of occurences
-      decrypt(encrypted).includes(currLetter) &&
+      decrypt(encrypted, key).includes(currLetter) &&
       countCellLetter(newRow, currLetter) + 1 <=
-        count(decrypt(encrypted), currLetter) &&
+        count(decrypt(encrypted, key), currLetter) &&
       newRow[i] === placeholderCell
     ) {
       hasWon = false;

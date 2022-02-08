@@ -4,6 +4,7 @@ import { fetchEncrypted } from "../helpers/api";
 import { checkAnswer } from "../helpers/check";
 import { makeGrid } from "../helpers/grid";
 import { words } from "../constants/possiblewords";
+import { parseResponse } from "../helpers/parse_response";
 
 import { Flex, Text, Center } from "@chakra-ui/react";
 
@@ -19,7 +20,7 @@ export default function Home() {
   const [hasWon, setHasWon] = useState<boolean>(false);
   const [hasLost, setHasLost] = useState<boolean>(false);
 
-  const [encryptedWord, setEncryptedWord] = useState<string>("");
+  const [encryptedResponse, setEncryptedResponse] = useState<string>("");
 
   const [currGuess, setCurrGuess] = useState<string>("");
   const [currGuessNumber, setCurrGuessNumber] = useState<number>(0);
@@ -30,7 +31,8 @@ export default function Home() {
   useEffect(() => {
     fetchEncrypted()
       .then((res: string) => {
-        setEncryptedWord(res);
+        res = parseResponse(res);
+        setEncryptedResponse(res);
       })
       .then(() => {
         setIsLoading(false);
@@ -75,8 +77,9 @@ export default function Home() {
     if (currGuess.length === 5) {
       if (words.includes(currGuess.toLowerCase())) {
         const { newRow, hasWon } = checkAnswer(
-          encryptedWord,
-          grid[currGuessNumber]
+          encryptedResponse.substring(0, 23),
+          grid[currGuessNumber],
+          encryptedResponse.substring(24, encryptedResponse.length)
         );
         setGrid((prevState) => {
           prevState[currGuessNumber] = newRow;
@@ -101,7 +104,11 @@ export default function Home() {
   }
 
   if (isLoading) {
-    return <Center>Loading...</Center>;
+    return (
+      <Center w="100%" h="100%">
+        Loading...
+      </Center>
+    );
   }
 
   return (
@@ -138,7 +145,12 @@ export default function Home() {
               transition="0.3s"
             >
               <Text color="black" fontWeight="bold" fontSize="1.2rem">
-                {hasWon ? decrypt(encryptedWord) : "You lost"}
+                {hasWon
+                  ? decrypt(
+                      encryptedResponse.substring(0, 23),
+                      encryptedResponse.substring(24, encryptedResponse.length)
+                    )
+                  : "You lost"}
               </Text>
             </Center>
           </Center>
