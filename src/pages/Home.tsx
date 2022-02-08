@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { fetchEncrypted } from "../helpers/api";
 import { checkAnswer } from "../helpers/check";
 import { makeGrid } from "../helpers/grid";
+import { words } from "../constants/possiblewords";
 
 import { Flex, Text } from "@chakra-ui/react";
 
@@ -71,23 +72,27 @@ export default function Home() {
 
   function handleEnterKey() {
     if (currGuess.length === 5) {
-      const { newRow, hasWon } = checkAnswer(
-        encryptedWord,
-        grid[currGuessNumber]
-      );
-      setGrid((prevState) => {
-        prevState[currGuessNumber] = newRow;
-        return prevState;
-      });
-      if (hasWon) {
-        setHasWon(true);
-      } else if (currGuessNumber === 5) {
-        setHasLost(true);
-      } else {
-        setCurrGuessNumber((prevState) => {
-          return prevState + 1;
+      if (words.includes(currGuess.toLowerCase())) {
+        const { newRow, hasWon } = checkAnswer(
+          encryptedWord,
+          grid[currGuessNumber]
+        );
+        setGrid((prevState) => {
+          prevState[currGuessNumber] = newRow;
+          return prevState;
         });
-        setCurrGuess("");
+        if (hasWon) {
+          setHasWon(true);
+        } else if (currGuessNumber === 5) {
+          setHasLost(true);
+        } else {
+          setCurrGuessNumber((prevState) => {
+            return prevState + 1;
+          });
+          setCurrGuess("");
+        }
+      } else {
+        console.log("not a word");
       }
     }
   }
