@@ -5,12 +5,13 @@ import { checkAnswer } from "../helpers/check";
 import { makeGrid } from "../helpers/grid";
 import { words } from "../constants/possiblewords";
 
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, Text, Center } from "@chakra-ui/react";
 
 import Grid from "../components/Grid";
 import Keyboard from "../components/Keyboard";
 
 import { Cell } from "../types/cell";
+import { decrypt } from "../helpers/decrypt";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -100,9 +101,6 @@ export default function Home() {
   if (isLoading) {
     return <div>Loading...</div>;
   }
-  if (hasWon) {
-    return <div>You won!</div>;
-  }
   if (hasLost) {
     return <div>You Lost!</div>;
   }
@@ -120,8 +118,23 @@ export default function Home() {
       <Text fontSize="5xl" fontWeight="bold">
         Wordle
       </Text>
-
-      <Grid grid={grid} />
+      <Flex justify="center" align="center" direction="column">
+        {hasWon && (
+          <Center
+            bg="beige.main"
+            h="3rem"
+            w="10rem"
+            borderRadius="1rem"
+            textAlign="center"
+            position="absolute"
+          >
+            <Text color="black" fontWeight="bold" fontSize="1.2rem">
+              {decrypt(encryptedWord)}
+            </Text>
+          </Center>
+        )}
+        <Grid grid={grid} />
+      </Flex>
 
       <Keyboard
         handleInput={(letter: string) => handleKeyboardInput(letter)}

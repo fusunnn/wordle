@@ -41,6 +41,7 @@ export default function Grid({ grid }: Props) {
                       ? "orange"
                       : "green"
                   }
+                  transition="0.4s"
                 >
                   <Text fontWeight="bold" fontSize="1.4rem">
                     {item.letter}
