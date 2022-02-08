@@ -1,9 +1,5 @@
 import { Cell } from "../types/cell";
 
-interface Test {
-  letter: string;
-  status: string;
-}
 export function makeGrid(): Cell[][] {
   const grid: Cell[][] = [];
 

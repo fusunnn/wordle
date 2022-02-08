@@ -4,10 +4,6 @@ import { Box, Flex, Center, Text } from "@chakra-ui/react";
 
 import { Cell } from "../types/cell";
 
-interface Test {
-  letter: string;
-  status: string;
-}
 interface Props {
   grid: Cell[][];
 }
@@ -24,7 +20,15 @@ export default function Grid({ grid }: Props) {
                   w="4rem"
                   h="4rem"
                   border="2px"
-                  borderColor="beige.faded"
+                  borderColor={
+                    item.status === "inactive"
+                      ? "beige.faded"
+                      : item.status === "incorrect"
+                      ? "beige.faded"
+                      : item.status === "half"
+                      ? "orange"
+                      : "green"
+                  }
                   borderRadius="5"
                   m={1}
                   key={i}
@@ -32,7 +36,7 @@ export default function Grid({ grid }: Props) {
                     item.status === "inactive"
                       ? "transparent"
                       : item.status === "incorrect"
-                      ? "red"
+                      ? "beige.faded"
                       : item.status === "half"
                       ? "orange"
                       : "green"

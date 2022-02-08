@@ -11,11 +11,6 @@ import Keyboard from "../components/Keyboard";
 
 import { Cell } from "../types/cell";
 
-interface Test {
-  letter: string;
-  status: string;
-}
-
 export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
@@ -76,14 +71,18 @@ export default function Home() {
 
   function handleEnterKey() {
     if (currGuess.length === 5) {
-      const newRow = checkAnswer(encryptedWord, grid[currGuessNumber]);
+      const { newRow, hasWon } = checkAnswer(
+        encryptedWord,
+        grid[currGuessNumber]
+      );
       setGrid((prevState) => {
         prevState[currGuessNumber] = newRow;
         return prevState;
       });
-
-      if (currGuessNumber === 5) {
-        setIsPlaying(false);
+      if (hasWon) {
+        setHasWon(true);
+      } else if (currGuessNumber === 5) {
+        setHasLost(true);
       } else {
         setCurrGuessNumber((prevState) => {
           return prevState + 1;
@@ -96,8 +95,11 @@ export default function Home() {
   if (isLoading) {
     return <div>Loading...</div>;
   }
-  if (!isPlaying) {
-    return <div>Game Over!</div>;
+  if (hasWon) {
+    return <div>You won!</div>;
+  }
+  if (hasLost) {
+    return <div>You Lost!</div>;
   }
   return (
     <Flex
